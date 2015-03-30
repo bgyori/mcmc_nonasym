@@ -1,3 +1,5 @@
+compile;
+
 ns = 1e4; % Number of samples
 nr = 1e6; % Number of runs
 sigmaf = 1; % Sigma of the function

@@ -9,7 +9,7 @@ k = 10*ceil(N^(1/3));
 
 %% CW, Glauber
 latticeSize = 10; T = 2; h = 0;
-seed = round(rand*10000);
+seed = 1234;
 [~,~,fx_cwglauber] = isingCW(1,latticeSize,N,t0,1,T,h,seed);
 % Estimated parameters
 gamma_cwglauber_est = getGamma(fx_cwglauber);
@@ -24,7 +24,7 @@ t0_cwglauber= floor(30*tmix_cwglauber);
 load('./output/CW.mat','m','nSteps','nRelaxSteps');
 NN = nSteps - nRelaxSteps;
 % Simulation
-[t,logp_sim] = logTail(m);
+[t,logp] = logTail(m);
 % Chebyshev
 logp_cheb = chebyshev(t,NN,sigma_cwglauber_est,Vf_cwglauber_est,gamma_cwglauber);
 % Bernstein
@@ -32,30 +32,17 @@ logp_bern = bernstein(t,NN,sigma_cwglauber_est,Vf_cwglauber_est,gamma_cwglauber,
 % Normal distribution
 logp_norm = normasym(t,NN,sigma_cwglauber_est);
 
-fh = figure; hold on;
-set(0,'DefaultAxesColorOrder',[0 0 0]);
-set(0,'DefaultLineLineWidth',1.5);
-plot(t,logp_sim,'-');
-plot(nan,'-x','MarkerSize',5);
-plot(t,logp_bern,'--');
-plot(t,logp_norm,'-.');
-plot(t,logp_cheb,'-');
-plot(t(1:5:end),logp_cheb(1:5:end),'x','MarkerSize',5);
-xlabel('$$t$$','interpreter','latex','FontSize',15);
-ylabel('$$\widehat{L}(t)$$','interpreter','latex','FontSize',15);
+
+fh = logtail_plot(t,logp,logp_cheb,logp_bern,logp_norm,true);
 xlim([-0.4,0.4]);
-hold off;
 saveas(fh,'plots/cwglauber.eps');
 
 fprintf(['Lattice size $%d$, $10^6$ runs, $N=10^5$, $t_0=%d$, $T=1/\\beta=%.2f$, $h=0$, $C=%d$, ', ...
 	'$\\hat{\\sigma}^2 = %.5g$, $\\hat{V}_f = %.2f$, $\\hat{\\gamma}^{CW}_{Gl}=%0.2e$\n'],...
 	latticeSize,t0_cwglauber,T,C,sigma_cwglauber_est,Vf_cwglauber_est,gamma_cwglauber);
 
-legend({'Simulation','Chebyshev','Bernstein','CLT'});
-
 %% CW, Metropolis
 latticeSize = 10; T = 2; h = 0;
-seed = round(rand*10000);
 [~,~,fx_cwmetro] = isingCWMetropolis(1,latticeSize,N,t0,1,T,h,seed);
 sigma_cwmetro_est = getSigmaNonasym(fx_cwmetro,k);
 gamma_cwmetro_est = getGamma(fx_cwmetro);
@@ -67,7 +54,7 @@ C = latticeSize;
 load('./output/CWMetropolis.mat','m','nSteps','nRelaxSteps');
 NN = nSteps - nRelaxSteps;
 % Simulation
-[t,logp_sim] = logTail(m);
+[t,logp] = logTail(m);
 % Chebyshev
 logp_cheb = chebyshev(t,NN,sigma_cwmetro_est,Vf_cwmetro_est,gamma_cwmetro_est);
 % Bernstein
@@ -75,18 +62,8 @@ logp_bern = bernstein(t,NN,sigma_cwmetro_est,Vf_cwmetro_est,gamma_cwmetro_est,C)
 % Normal distribution
 logp_norm = normasym(t,NN,sigma_cwmetro_est);
 
-fh = figure; hold on;
-set(0,'DefaultAxesColorOrder',[0 0 0]);
-set(0,'DefaultLineLineWidth',1.5);
-plot(t,logp_sim,'-');
-plot(t,logp_cheb,'-');
-plot(t(1:5:end),logp_cheb(1:5:end),'x','MarkerSize',5);
-plot(t,logp_bern,'--');
-plot(t,logp_norm,'-.');
-xlabel('$$t$$','interpreter','latex','FontSize',15);
-ylabel('$$\widehat{L}(t)$$','interpreter','latex','FontSize',15);
-xlim([-0.3 0.3])
-hold off;
+fh = logtail_plot(t,logp,logp_cheb,logp_bern,logp_norm);
+xlim([-0.3 0.3]);
 saveas(fh,'plots/cwmetro.eps');
 
 fprintf(['Lattice size $%d$, $10^6$ runs, $N=10^5$, $t_0=%d$, $T=1/\\beta=%.2f$, $h=0$, $C=%d$, ', ...
@@ -95,7 +72,6 @@ fprintf(['Lattice size $%d$, $10^6$ runs, $N=10^5$, $t_0=%d$, $T=1/\\beta=%.2f$,
 
 %% CW, Glauber, low temperature
 latticeSize = 10; T = 0.5; h = 0;
-seed = round(rand*10000);
 p = 100; % Make a longer run here
 [~,~,fx_cwlowtemp] = isingCW(1,latticeSize,N*p,t0*p,1,T,h,seed);
 gamma_cwlowtemp_est = getGamma(fx_cwlowtemp);
@@ -107,7 +83,7 @@ C = latticeSize;
 load('./output/CWLowtemp.mat','m','nSteps','nRelaxSteps');
 NN = nSteps - nRelaxSteps;
 % Simulation
-[t,logp_sim] = logTail(m);
+[t,logp] = logTail(m);
 
 % Chebyshev
 logp_cheb = chebyshev(t,NN,sigma_cwlowtemp_est,Vf_cwlowtemp_est,gamma_cwlowtemp_est);
@@ -116,17 +92,7 @@ logp_bern = bernstein(t,NN,sigma_cwlowtemp_est,Vf_cwlowtemp_est,gamma_cwlowtemp_
 % Normal distribution
 logp_norm = normasym(t,NN,sigma_cwlowtemp_est);
 
-fh = figure; hold on;
-set(0,'DefaultAxesColorOrder',[0 0 0]);
-set(0,'DefaultLineLineWidth',1.5);
-plot(t,logp_sim,'-');
-plot(t,logp_cheb,'-');
-plot(t(1:5:end),logp_cheb(1:5:end),'x','MarkerSize',5);
-plot(t,logp_bern,'--');
-plot(t,logp_norm,'-.');
-xlabel('$$t$$','interpreter','latex','FontSize',15);
-ylabel('$$\widehat{L}(t)$$','interpreter','latex','FontSize',15);
-hold off;
+fh = logtail_plot(t,logp,logp_cheb,logp_bern,logp_norm);
 saveas(fh,'plots/cwlowtemp.eps');
 
 fprintf(['Lattice size $%d$, $10^6$ runs, $N=10^5$, $t_0=%d$, $T=1/\\beta=%.2f$, $h=0$, $C=%d$, ', ...
@@ -135,7 +101,6 @@ fprintf(['Lattice size $%d$, $10^6$ runs, $N=10^5$, $t_0=%d$, $T=1/\\beta=%.2f$,
 
 %% 1D, Glauber, random scan
 latticeSize = 10; T = 2; h = 0;
-seed = round(rand*10000);
 [~,~,fx_1drand] = ising1D(1,latticeSize,N,t0,1,T,h,seed);
 beta = 1/T;
 % Theoretical
@@ -152,7 +117,7 @@ load('./output/I1.mat','m','nSteps','nRelaxSteps');
 NN = nSteps - nRelaxSteps;
 
 % Simulation
-[t,logp_sim] = logTail(m);
+[t,logp] = logTail(m);
 % Chebyshev
 logp_cheb = chebyshev(t,NN,sigma_1drand_est,Vf_1drand_est,gamma_1drand);
 % Bernstein
@@ -160,17 +125,7 @@ logp_bern = bernstein(t,NN,sigma_1drand_est,Vf_1drand_est,gamma_1drand,C);
 % Normal distribution
 logp_norm = normasym(t,NN,sigma_1drand_est);
 
-fh = figure; hold on;
-set(0,'DefaultAxesColorOrder',[0 0 0]);
-set(0,'DefaultLineLineWidth',1.5);
-plot(t,logp_sim,'-');
-plot(t,logp_cheb,'-');
-plot(t(1:5:end),logp_cheb(1:5:end),'x','MarkerSize',5);
-plot(t,logp_bern,'--');
-plot(t,logp_norm,'-.');
-xlabel('$$t$$','interpreter','latex','FontSize',15);
-ylabel('$$\widehat{L}(t)$$','interpreter','latex','FontSize',15);
-hold off;
+fh = logtail_plot(t,logp,logp_cheb,logp_bern,logp_norm);
 saveas(fh,'plots/i1drand.eps');
 
 
@@ -181,7 +136,6 @@ fprintf(['Lattice size $%d$, $10^6$ runs, $N=10^5$, $t_0=%d$, $T=1/\\beta=%.2f$,
 
 %% 1D, Glauber, systematic scan
 latticeSize = 10; T = 2; beta = 1/T; h = 0;
-seed = round(rand*10000);
 [~,~,fx_1dsyst] = ising1Dsyst(1,latticeSize,ceil(N/latticeSize),ceil(t0/latticeSize),1,T,h,seed);
 % Theoretical
 gamma_1dsyst = 8*exp(-4*beta)*(1+exp(-4*beta)) / ((1+3*exp(-4*beta))^2);
@@ -196,7 +150,7 @@ C = latticeSize;
 load('./output/I1Syst.mat','m','nSteps','nRelaxSteps');
 NN = nSteps - nRelaxSteps;
 % Simulation
-[t,logp_sim] = logTail(m);
+[t,logp] = logTail(m);
 
 % Chebyshev
 logp_cheb = chebyshev_nonrev(t,NN,sigma_1dsyst_est,Vf_1dsyst_est,gamma_1dsyst);
@@ -205,18 +159,8 @@ logp_bern = bernstein_nonrev(t,NN,sigma_1dsyst_est,Vf_1dsyst_est,gamma_1dsyst,C)
 % Normal distribution
 logp_norm = normasym(t,NN,sigma_1dsyst_est);
 
-fh = figure; hold on;
-set(0,'DefaultAxesColorOrder',[0 0 0]);
-set(0,'DefaultLineLineWidth',1.5);
-plot(t,logp_sim,'-');
-plot(t,logp_cheb,'-');
-plot(t(1:5:end),logp_cheb(1:5:end),'x','MarkerSize',5);
-plot(t,logp_bern,'--');
-plot(t,logp_norm,'-.');
-xlabel('$$t$$','interpreter','latex','FontSize',15);
-ylabel('$$\widehat{L}(t)$$','interpreter','latex','FontSize',15);
+fh = logtail_plot(t,logp,logp_cheb,logp_bern,logp_norm);
 xlim([-0.6 0.6]);
-hold off;
 saveas(fh,'plots/i1dsyst.eps');
 
 
@@ -226,7 +170,6 @@ fprintf(['Lattice size $%d$, $10^6$ runs, $N=10^5$, $t_0=%d$, $T=1/\\beta=%.2f$,
 
 %% CW, Glauber, sign of magnetization
 latticeSize = 10; T = 2; h = 2;
-seed = round(rand*10000);
 [~,~,fx_cwmagsign] = isingCWMagsign(1,latticeSize,N,t0,1,T,h,seed);
 % Estimated
 gamma_cwmagsign_est = getGamma(fx_cwmagsign(:));
@@ -240,7 +183,7 @@ C = 1;
 load('./output/CWMagsign.mat','m','nSteps','nRelaxSteps');
 NN = nSteps - nRelaxSteps;
 % Simulation
-[t,logp_sim] = logTail(m);
+[t,logp] = logTail(m);
 
 % Chebyshev
 logp_cheb = chebyshev_nonrev(t,NN,sigma_cwmagsign_est,Vf_cwmagsign_est,gamma_cwmagsign_est);
@@ -249,18 +192,7 @@ logp_bern = bernstein_nonrev(t,NN,sigma_cwmagsign_est,Vf_cwmagsign_est,gamma_cwm
 % Normal distribution
 logp_norm = normasym(t,NN,sigma_cwmagsign_est);
 
-fh = figure; hold on;
-set(0,'DefaultAxesColorOrder',[0 0 0]);
-set(0,'DefaultLineLineWidth',1.5);
-ylim([-25,0]);
-plot(t,logp_sim,'-');
-plot(t,logp_cheb,'-');
-plot(t(1:5:end),logp_cheb(1:5:end),'x','MarkerSize',5);
-plot(t,logp_bern,'--');
-plot(t,logp_norm,'-.');
-xlabel('$$t$$','interpreter','latex','FontSize',15);
-ylabel('$$\widehat{L}(t)$$','interpreter','latex','FontSize',15);
-hold off;
+fh = logtail_plot(t,logp,logp_cheb,logp_bern,logp_norm);
 saveas(fh,'plots/cwmagsign.eps');
 
 fprintf(['Lattice size $%d$, $10^6$ runs, $N=10^5$, $t_0=%d$, $T=1/\\beta=%.2f$, $h=2$, $C=%d$, ', ...
