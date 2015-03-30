@@ -21,7 +21,7 @@ for i=1:length(sigmaps)
         % Store the mean for each run, discarding initial ns samples
 		m(j) = mean(f(ns+1:end));
 	end
-	fname = sprintf('output/rndwalk_mh%d.mat',i);
+	fname = sprintf('output/rndwalk_mh_out%d.mat',i);
 	save(fname,'m','ns','sigmaf','sigmap');
 end
 

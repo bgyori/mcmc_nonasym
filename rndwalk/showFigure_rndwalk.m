@@ -7,6 +7,7 @@ for i=1:4
 	% Estimate parameters from one run
 	n = 1e7;
 	seed = 123;
+
 	[f,xa] = rndwalk_mh(n,rndwalks.sigmap,1,2.5,seed);
 	gamma = getGamma(xa);
 	sigma = getSigmaNonasym(f,ceil(10*n^(1/3)));
@@ -26,5 +27,10 @@ for i=1:4
 	fprintf('sigma^2 = %.3e\tVf = %.3e\tgamma = %.3e\n',sigma,Vf,gamma)
 	
 	% Plot
-	logtail_plot(t,logp,logp_cheb,logp_bern,logp_norm,true);
+	if i==1
+		show_legend = true;
+	else
+		show_legend = false;
+	end
+	logtail_plot(t,logp,logp_cheb,logp_bern,logp_norm,show_legend);
 end

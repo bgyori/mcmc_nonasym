@@ -62,7 +62,6 @@ void mexFunction(int nlhs,mxArray *plhs[],int nrhs,const mxArray *prhs[]){
 	double* xbeta = mxGetPr(plhs[1]);
 	
 	srand(seed);
-	//std::cout << "Rand test: " << rand() << std::endl;
 	
 	mxArray *xa = mxCreateDoubleMatrix(ns,2,mxREAL);
 	double* x = mxGetPr(xa);
@@ -91,13 +90,11 @@ void mexFunction(int nlhs,mxArray *plhs[],int nrhs,const mxArray *prhs[]){
 			x[j] = xprop[0];
 			x[ns+j] = xprop[1];
 			lpold = lp;
-			//std::cout << "accept" << std::endl;
 			}
 		else {
 			// Keep previous state
 			x[j] = x[j-1];
 			x[ns+j] = x[ns+j-1];
-			//std::cout << "reject" << std::endl;
 			}
 
 		// Function to save

@@ -22,4 +22,4 @@ for i=1:nr
     y30(i) = mean(eab30./(1+eab30));
 	y95(i) = mean(eab95./(1+eab95));
 end
-save('challenger.mat');
+save('challenger_out.mat');

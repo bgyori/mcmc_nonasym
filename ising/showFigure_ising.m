@@ -28,7 +28,7 @@ NN = nSteps - nRelaxSteps;
 % Chebyshev
 logp_cheb = chebyshevtail(t,NN,sigma_cwglauber_est,Vf_cwglauber_est,gamma_cwglauber);
 % Bernstein
-logp_bern = bernteintail(t,NN,sigma_cwglauber_est,Vf_cwglauber_est,gamma_cwglauber,C);
+logp_bern = bernsteintail(t,NN,sigma_cwglauber_est,Vf_cwglauber_est,gamma_cwglauber,C);
 % Normal distribution
 logp_norm = normasym(t,NN,sigma_cwglauber_est);
 
@@ -58,7 +58,7 @@ NN = nSteps - nRelaxSteps;
 % Chebyshev
 logp_cheb = chebyshevtail(t,NN,sigma_cwmetro_est,Vf_cwmetro_est,gamma_cwmetro_est);
 % Bernstein
-logp_bern = bernteintail(t,NN,sigma_cwmetro_est,Vf_cwmetro_est,gamma_cwmetro_est,C);
+logp_bern = bernsteintail(t,NN,sigma_cwmetro_est,Vf_cwmetro_est,gamma_cwmetro_est,C);
 % Normal distribution
 logp_norm = normasym(t,NN,sigma_cwmetro_est);
 
@@ -88,7 +88,7 @@ NN = nSteps - nRelaxSteps;
 % Chebyshev
 logp_cheb = chebyshevtail(t,NN,sigma_cwlowtemp_est,Vf_cwlowtemp_est,gamma_cwlowtemp_est);
 % Bernstein
-logp_bern = bernteintail(t,NN,sigma_cwlowtemp_est,Vf_cwlowtemp_est,gamma_cwlowtemp_est,C);
+logp_bern = bernsteintail(t,NN,sigma_cwlowtemp_est,Vf_cwlowtemp_est,gamma_cwlowtemp_est,C);
 % Normal distribution
 logp_norm = normasym(t,NN,sigma_cwlowtemp_est);
 
@@ -121,7 +121,7 @@ NN = nSteps - nRelaxSteps;
 % Chebyshev
 logp_cheb = chebyshevtail(t,NN,sigma_1drand_est,Vf_1drand_est,gamma_1drand);
 % Bernstein
-logp_bern = bernteintail(t,NN,sigma_1drand_est,Vf_1drand_est,gamma_1drand,C);
+logp_bern = bernsteintail(t,NN,sigma_1drand_est,Vf_1drand_est,gamma_1drand,C);
 % Normal distribution
 logp_norm = normasym(t,NN,sigma_1drand_est);
 
@@ -186,9 +186,9 @@ NN = nSteps - nRelaxSteps;
 [t,logp] = logTail(m,100);
 
 % Chebyshev
-logp_cheb = chebyshev_nonrev(t,NN,sigma_cwmagsign_est,Vf_cwmagsign_est,gamma_cwmagsign_est);
+logp_cheb = chebyshevtail(t,NN,sigma_cwmagsign_est,Vf_cwmagsign_est,gamma_cwmagsign_est);
 % Bernstein
-logp_bern = bernstein_nonrev(t,NN,sigma_cwmagsign_est,Vf_cwmagsign_est,gamma_cwmagsign_est,C);
+logp_bern = bernsteintail(t,NN,sigma_cwmagsign_est,Vf_cwmagsign_est,gamma_cwmagsign_est,C);
 % Normal distribution
 logp_norm = normasym(t,NN,sigma_cwmagsign_est);
 

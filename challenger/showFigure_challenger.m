@@ -1,3 +1,4 @@
+addpath ..
 compile;
 
 % Parameters of Challenger model
