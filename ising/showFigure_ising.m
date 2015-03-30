@@ -24,11 +24,11 @@ t0_cwglauber= floor(30*tmix_cwglauber);
 load('./output/CW.mat','m','nSteps','nRelaxSteps');
 NN = nSteps - nRelaxSteps;
 % Simulation
-[t,logp] = logTail(m);
+[t,logp] = logTail(m,100);
 % Chebyshev
-logp_cheb = chebyshev(t,NN,sigma_cwglauber_est,Vf_cwglauber_est,gamma_cwglauber);
+logp_cheb = chebyshevtail(t,NN,sigma_cwglauber_est,Vf_cwglauber_est,gamma_cwglauber);
 % Bernstein
-logp_bern = bernstein(t,NN,sigma_cwglauber_est,Vf_cwglauber_est,gamma_cwglauber,C);
+logp_bern = bernteintail(t,NN,sigma_cwglauber_est,Vf_cwglauber_est,gamma_cwglauber,C);
 % Normal distribution
 logp_norm = normasym(t,NN,sigma_cwglauber_est);
 
@@ -54,11 +54,11 @@ C = latticeSize;
 load('./output/CWMetropolis.mat','m','nSteps','nRelaxSteps');
 NN = nSteps - nRelaxSteps;
 % Simulation
-[t,logp] = logTail(m);
+[t,logp] = logTail(m,100);
 % Chebyshev
-logp_cheb = chebyshev(t,NN,sigma_cwmetro_est,Vf_cwmetro_est,gamma_cwmetro_est);
+logp_cheb = chebyshevtail(t,NN,sigma_cwmetro_est,Vf_cwmetro_est,gamma_cwmetro_est);
 % Bernstein
-logp_bern = bernstein(t,NN,sigma_cwmetro_est,Vf_cwmetro_est,gamma_cwmetro_est,C);
+logp_bern = bernteintail(t,NN,sigma_cwmetro_est,Vf_cwmetro_est,gamma_cwmetro_est,C);
 % Normal distribution
 logp_norm = normasym(t,NN,sigma_cwmetro_est);
 
@@ -83,12 +83,12 @@ C = latticeSize;
 load('./output/CWLowtemp.mat','m','nSteps','nRelaxSteps');
 NN = nSteps - nRelaxSteps;
 % Simulation
-[t,logp] = logTail(m);
+[t,logp] = logTail(m,100);
 
 % Chebyshev
-logp_cheb = chebyshev(t,NN,sigma_cwlowtemp_est,Vf_cwlowtemp_est,gamma_cwlowtemp_est);
+logp_cheb = chebyshevtail(t,NN,sigma_cwlowtemp_est,Vf_cwlowtemp_est,gamma_cwlowtemp_est);
 % Bernstein
-logp_bern = bernstein(t,NN,sigma_cwlowtemp_est,Vf_cwlowtemp_est,gamma_cwlowtemp_est,C);
+logp_bern = bernteintail(t,NN,sigma_cwlowtemp_est,Vf_cwlowtemp_est,gamma_cwlowtemp_est,C);
 % Normal distribution
 logp_norm = normasym(t,NN,sigma_cwlowtemp_est);
 
@@ -117,11 +117,11 @@ load('./output/I1.mat','m','nSteps','nRelaxSteps');
 NN = nSteps - nRelaxSteps;
 
 % Simulation
-[t,logp] = logTail(m);
+[t,logp] = logTail(m,100);
 % Chebyshev
-logp_cheb = chebyshev(t,NN,sigma_1drand_est,Vf_1drand_est,gamma_1drand);
+logp_cheb = chebyshevtail(t,NN,sigma_1drand_est,Vf_1drand_est,gamma_1drand);
 % Bernstein
-logp_bern = bernstein(t,NN,sigma_1drand_est,Vf_1drand_est,gamma_1drand,C);
+logp_bern = bernteintail(t,NN,sigma_1drand_est,Vf_1drand_est,gamma_1drand,C);
 % Normal distribution
 logp_norm = normasym(t,NN,sigma_1drand_est);
 
@@ -150,7 +150,7 @@ C = latticeSize;
 load('./output/I1Syst.mat','m','nSteps','nRelaxSteps');
 NN = nSteps - nRelaxSteps;
 % Simulation
-[t,logp] = logTail(m);
+[t,logp] = logTail(m,100);
 
 % Chebyshev
 logp_cheb = chebyshev_nonrev(t,NN,sigma_1dsyst_est,Vf_1dsyst_est,gamma_1dsyst);
@@ -183,7 +183,7 @@ C = 1;
 load('./output/CWMagsign.mat','m','nSteps','nRelaxSteps');
 NN = nSteps - nRelaxSteps;
 % Simulation
-[t,logp] = logTail(m);
+[t,logp] = logTail(m,100);
 
 % Chebyshev
 logp_cheb = chebyshev_nonrev(t,NN,sigma_cwmagsign_est,Vf_cwmagsign_est,gamma_cwmagsign_est);

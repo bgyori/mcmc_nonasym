@@ -1,3 +1,4 @@
+addpath ..
 compile
 
 for i=1:4
@@ -6,20 +7,19 @@ for i=1:4
 	% Estimate parameters from one run
 	n = 1e7;
 	seed = 123;
-	[f,xa] = rndwalk_mh(n,1,d,rndwalks.sigmap,1,2.5,seed);
+	[f,xa] = rndwalk_mh(n,rndwalks.sigmap,1,2.5,seed);
 	gamma = getGamma(xa);
 	sigma = getSigmaNonasym(f,ceil(10*n^(1/3)));
 	Vf = getVf(f);
-	%----
 	
 	C = 1;
 	n = rndwalks.ns;
 	% Simulation
 	[t,logp] = logTail(rndwalks.m);
 	% Bernstein inequality
-	logp_bern = bernstein(t,n,sigma,Vf,gamma,C);
+	logp_bern = bernsteintail(t,n,sigma,Vf,gamma,C);
 	% Chebyshev inequality
-	logp_cheb = chebyshev(t,n,sigma,Vf,gamma);
+	logp_cheb = chebyshevtail(t,n,sigma,Vf,gamma);
 	% Normal approximation
 	logp_norm = normasym(t,n,sigma);
 	
