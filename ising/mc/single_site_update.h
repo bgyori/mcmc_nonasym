@@ -26,7 +26,7 @@ public:
 	new_value = -1*(*it);				// Flip spin as proposal
 	double de = energy(model, it, new_value);	// Calculate energy change
 	double rt = rate(de,T);				// Calculate probability of step
-	double r = (ran()*1.0 / ran.max());		// r=U[0,1]
+	double r = ran.randu();		// r=U[0,1]
 	if(r < rt){					// Accept flip
 		model.flip(it);
 		return 1;

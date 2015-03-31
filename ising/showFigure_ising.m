@@ -35,7 +35,7 @@ logp_norm = normasym(t,NN,sigma_cwglauber_est);
 
 fh = logtail_plot(t,logp,logp_cheb,logp_bern,logp_norm,true);
 xlim([-0.4,0.4]);
-saveas(fh,'figures/cwglauber.eps');
+%saveas(fh,'figures/cwglauber.eps');
 
 fprintf(['Lattice size $%d$, $10^6$ runs, $N=10^5$, $t_0=%d$, $T=1/\\beta=%.2f$, $h=0$, $C=%d$, ', ...
 	'$\\hat{\\sigma}^2 = %.5g$, $\\hat{V}_f = %.2f$, $\\hat{\\gamma}^{CW}_{Gl}=%0.2e$\n'],...
@@ -64,7 +64,7 @@ logp_norm = normasym(t,NN,sigma_cwmetro_est);
 
 fh = logtail_plot(t,logp,logp_cheb,logp_bern,logp_norm);
 xlim([-0.3 0.3]);
-saveas(fh,'figures/cwmetro.eps');
+%saveas(fh,'figures/cwmetro.eps');
 
 fprintf(['Lattice size $%d$, $10^6$ runs, $N=10^5$, $t_0=%d$, $T=1/\\beta=%.2f$, $h=0$, $C=%d$, ', ...
 	'$\\hat{\\sigma}^2 = %.5g$, $\\hat{V}_f = %.2f$, $\\hat{\\gamma}=%0.2e$\n'],...
@@ -93,7 +93,7 @@ logp_bern = bernsteintail(t,NN,sigma_cwlowtemp_est,Vf_cwlowtemp_est,gamma_cwlowt
 logp_norm = normasym(t,NN,sigma_cwlowtemp_est);
 
 fh = logtail_plot(t,logp,logp_cheb,logp_bern,logp_norm);
-saveas(fh,'figures/cwlowtemp.eps');
+%saveas(fh,'figures/cwlowtemp.eps');
 
 fprintf(['Lattice size $%d$, $10^6$ runs, $N=10^5$, $t_0=%d$, $T=1/\\beta=%.2f$, $h=0$, $C=%d$, ', ...
 	'$\\hat{\\sigma}^2 = %.5g$, $\\hat{V}_f = %.2f$, $\\hat{\\gamma}=%0.2e$\n'],...
@@ -126,7 +126,7 @@ logp_bern = bernsteintail(t,NN,sigma_1drand_est,Vf_1drand_est,gamma_1drand,C);
 logp_norm = normasym(t,NN,sigma_1drand_est);
 
 fh = logtail_plot(t,logp,logp_cheb,logp_bern,logp_norm);
-saveas(fh,'figures/i1drand.eps');
+%saveas(fh,'figures/i1drand.eps');
 
 
 fprintf(['Lattice size $%d$, $10^6$ runs, $N=10^5$, $t_0=%d$, $T=1/\\beta=%.2f$, $h=0$, $C=%d$, ', ...
@@ -161,7 +161,7 @@ logp_norm = normasym(t,NN,sigma_1dsyst_est);
 
 fh = logtail_plot(t,logp,logp_cheb,logp_bern,logp_norm);
 xlim([-0.6 0.6]);
-saveas(fh,'figures/i1dsyst.eps');
+%saveas(fh,'figures/i1dsyst.eps');
 
 
 fprintf(['Lattice size $%d$, $10^6$ runs, $N=10^5$, $t_0=%d$, $T=1/\\beta=%.2f$, $h=0$, $C=%d$, ', ...
@@ -193,7 +193,7 @@ logp_bern = bernsteintail(t,NN,sigma_cwmagsign_est,Vf_cwmagsign_est,gamma_cwmags
 logp_norm = normasym(t,NN,sigma_cwmagsign_est);
 
 fh = logtail_plot(t,logp,logp_cheb,logp_bern,logp_norm);
-saveas(fh,'figures/cwmagsign.eps');
+%saveas(fh,'figures/cwmagsign.eps');
 
 fprintf(['Lattice size $%d$, $10^6$ runs, $N=10^5$, $t_0=%d$, $T=1/\\beta=%.2f$, $h=2$, $C=%d$, ', ...
 	'$\\hat{\\sigma}^2 = %.5g$, $\\hat{V}_f = %.2f$, $\\hat{\\gamma}=%0.2e$\n'],...

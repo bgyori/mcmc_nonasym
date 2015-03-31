@@ -2,28 +2,10 @@
 #include <cstdlib>
 #include <cmath>
 #include <iostream>
+#include "rng_mersenne.h"
 
 extern void _main();
 
-double pi2 = atan(1.0)*8.0;
-
-double randu(){
-   return (double)(rand())/(double)(RAND_MAX);
-}
-
-double randn(){
-  static int second;
-  static double r1, r2;
-  if(second == 0){
-	r1 = randu(); r2 = randu();
-	second = 1;
-	return cos(pi2*r1)*sqrt(-2.0*log(r2));
-	}
-  else {
-	second = 0;
-	return sin(pi2*r1)*sqrt(-2.0*log(r2));
-	}
-}
 
 double llh(double *xdata,double *ydata,int ndata,double alpha, double beta){
 	double llh = 0.0;
@@ -61,7 +43,7 @@ void mexFunction(int nlhs,mxArray *plhs[],int nrhs,const mxArray *prhs[]){
 	double* xalpha = mxGetPr(plhs[0]);
 	double* xbeta = mxGetPr(plhs[1]);
 	
-	srand(seed);
+	rng_mersenne rng(seed);
 	
 	mxArray *xa = mxCreateDoubleMatrix(ns,2,mxREAL);
 	double* x = mxGetPr(xa);
@@ -77,15 +59,15 @@ void mexFunction(int nlhs,mxArray *plhs[],int nrhs,const mxArray *prhs[]){
 	// For each step
 	for(int j=1;j<ns;j++){
 		// Proposal
-		xprop[0] = x[j-1]+alphasigma*randn();
-		xprop[1] = x[ns+j-1]+betasigma*randn();
+		xprop[0] = x[j-1]+alphasigma*rng.randn();
+		xprop[1] = x[ns+j-1]+betasigma*rng.randn();
 		// Log posterior
 		lp = lpri(xprop[0],bhat) + llh(xdata,ydata,ndata,xprop[0],xprop[1]);
 		// Log posterior ratio
 		r = lp -lpold;
 
 		// If new position is better or worse but randomly accept
-		if((r>=0) || (exp(r)>randu())){
+		if((r>=0) || (exp(r)>rng.randu())){
 			// Accept proposal
 			x[j] = xprop[0];
 			x[ns+j] = xprop[1];

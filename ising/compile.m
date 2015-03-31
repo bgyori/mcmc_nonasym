@@ -1,13 +1,44 @@
 fprintf('Compiling Curie-Weiss\n');
-mex -output isingCW -O -IisingCW -Imc -I. isingCW/magIsingCW.cpp
-fprintf('Compiling Curie-Weiss Metropolis\n');
-mex -output isingCWMetropolis -O -DMETROPOLIS -IisingCW -Imc -I. isingCW/magIsingCW.cpp
-fprintf('Compiling Curie-Weiss sign of magnetization\n');
-mex -output isingCWMagsign -O -DMAGSIGN -IisingCW -Imc -I. isingCW/magIsingCW.cpp
-fprintf('Compiling Ising 1D\n');
-mex -output ising1D -O -Iising1D -Imc -I. ising1D/magIsing1D.cpp
-fprintf('Compiling Ising 1D systematic scan\n');
-mex -output ising1Dsyst -O -DSWEEP -Iising1D -Imc -I. ising1D/magIsing1D.cpp
-fprintf('Compiling Ising 2D\n');
-mex -output ising2D -O -Iising2D -Imc -I. ising2D/magIsing2D.cpp
+compilestr = [
+	'-output isingCW -O -IisingCW ', ...
+	'-Imc -I. -I.. ', ...
+	'-DDSFMT_MEXP=19937 -I../mersenne ../mersenne/dSFMT.c ' , ...
+	'isingCW/magIsingCW.cpp '
+	];
+eval(['mex ' compilestr])
 
+fprintf('Compiling Curie-Weiss Metropolis\n');
+compilestr = [
+	'-output isingCWMetropolis -O -IisingCW ', ...
+	'-Imc -I. -I.. ', ...
+	'-DDSFMT_MEXP=19937 -I../mersenne ../mersenne/dSFMT.c ' , ...
+	'-DMETROPOLIS -IisingCW isingCW/magIsingCW.cpp '
+	];
+eval(['mex ' compilestr])
+
+fprintf('Compiling Curie-Weiss sign of magnetization\n');
+compilestr = [
+	'-output isingCWMagsign -O -IisingCW ', ...
+	'-Imc -I. -I.. ', ...
+	'-DDSFMT_MEXP=19937 -I../mersenne ../mersenne/dSFMT.c ' , ...
+	'-DMAGSIGN isingCW/magIsingCW.cpp '
+	];
+eval(['mex ' compilestr])
+
+fprintf('Compiling Ising 1D\n');
+compilestr = [
+	'-output ising1D -O -Iising1D ', ...
+	'-Imc -I. -I.. ', ...
+	'-DDSFMT_MEXP=19937 -I../mersenne ../mersenne/dSFMT.c ' , ...
+	'ising1D/magIsing1D.cpp '
+	];
+eval(['mex ' compilestr])
+
+fprintf('Compiling Ising 1D systematic scan\n');
+compilestr = [
+	'-output ising1Dsyst -O -Iising1D ', ...
+	'-Imc -I. -I.. ', ...
+	'-DDSFMT_MEXP=19937 -I../mersenne ../mersenne/dSFMT.c ' , ...
+	'-DSWEEP ising1D/magIsing1D.cpp '
+	];
+eval(['mex ' compilestr])

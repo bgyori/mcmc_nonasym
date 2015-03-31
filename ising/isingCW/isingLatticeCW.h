@@ -44,7 +44,7 @@ struct isingCW {
   isingCW(int N,random_type& ran) : data(N,1){
 	iterator it;
 	for(it=begin();it!=end();++it){
-	  double r = (ran()*1.0 / ran.max());
+	  double r = ran.randu();
 	  if(r > 0.5)
 		(*it) = 1;
 	  else
@@ -57,7 +57,7 @@ struct isingCW {
   iterator random_site(random_type& ran) {
     
     unsigned int loc = static_cast<unsigned int>
-                         (data.size()*(ran()*1.0/ran.max()));
+                         (data.size()*ran.randu());
     return iterator(data.begin()+loc,loc);
   }
   int effective_field(iterator iit){

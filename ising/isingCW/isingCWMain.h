@@ -3,7 +3,7 @@
 #include "single_site_update.h"
 
 #include "measurement.h"
-#include "sml_shift_register.h"
+#include "rng_mersenne.h"
 #include "monte_carlo.h"
 
 #include <iostream>
@@ -31,7 +31,8 @@ void magIsingCW(int nRuns, int latticeSize, int nSteps, int nRelaxSteps, int nSt
 	#else
 		glauber_rate				rate;
 	#endif
-	sml::shift_register_default	ran(seed);
+
+    rng_mersenne ran(seed);
 
 	if(!magMean){
 		isingCW 	lattice(latticeSize,ran);
