@@ -1,1 +1,1 @@
-mex -O challenger.cpp
+codegen challenger.m
