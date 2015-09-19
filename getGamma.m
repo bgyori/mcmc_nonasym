@@ -16,7 +16,11 @@ function gamma = getGamma(f)
 	while true
 		for j=1:nf
 			g(i,j) = getGammaC(f(:,j),eta(i),eta(i));
-			gammas(i,j) = 1-(g(i,j)/Vf(j)).^(1/eta(i));
+			if Vf(j)>0
+                gammas(i,j) = 1-(g(i,j)/Vf(j)).^(1/eta(i));
+            else
+                gammas(i,j) = 1;
+            end
 		end
 		ming(i) = min(gammas(i,:));
 		if i>1
