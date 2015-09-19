@@ -11,7 +11,7 @@ sigma = getSigmaNonasym(f(t0+1:end),ceil(10*ns^(1/3)));
 V = getVf(f(t0+1:end));
 
 % Load results
-clin = load('clintrial_out.mat');
+clin = load('clintrial.mat');
 C = 1;
 ns = clin.ns;
 
