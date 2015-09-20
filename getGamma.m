@@ -9,7 +9,9 @@ function gamma = getGamma(f)
 	
 	[n,nf] = size(f);
 	
-	Vf = getVf(f);
+	for j=1:nf
+        Vf(j) = getVf(f(:,j));
+    end
 	
 	i = 1;
 	eta(1) = 1;
